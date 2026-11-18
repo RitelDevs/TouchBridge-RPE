@@ -272,7 +272,7 @@ private struct TimelinePane: View {
                     let nearest = studio.project.notes.compactMap { note -> (ChartNote, Double)? in
                         let horizontal = max(0, max(note.start-t, t-note.start-note.duration)) / span * w
                         let d = hypot(horizontal, ordinate(note.x, height: geo.size.height) - p.y)
-                        return d <= 12 ? (note, d) : nil
+                        return d <= 12 ? (note, Double(d)) : nil
                     }.min { $0.1 < $1.1 }?.0
                     studio.selected = nearest?.id
                     if studio.hasAudio { studio.seek(nearest?.start ?? min(studio.duration, max(0, t))) }
