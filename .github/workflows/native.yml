@@ -1,0 +1,12 @@
+name: Native Studio
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: swift test
+      - run: ./scripts/build-app.sh
+      - run: codesign --verify --strict "dist/TouchBridge Studio.app"
