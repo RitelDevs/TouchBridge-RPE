@@ -7,11 +7,13 @@ struct ChartTests {
         var recorder = GestureRecorder()
         recorder.begin(id: 1, x: 0.1, y: 0.7, time: 1)
         recorder.begin(id: 2, x: 0.9, y: 0.4, time: 1.02)
-        let tap = try #require(recorder.end(id: 2, x: 0.9, y: 0.4, time: 1.12))
+        let endedTap = recorder.end(id: 2, x: 0.9, y: 0.4, time: 1.12)
+        let tap = try #require(endedTap)
         for frame in 1...30 {
             recorder.move(id: 1, x: frame.isMultiple(of: 2) ? 0.106 : 0.094, y: 0.7, time: 1 + Double(frame) / 60)
         }
-        let hold = try #require(recorder.end(id: 1, x: 0.1, y: 0.7, time: 1.6))
+        let endedHold = recorder.end(id: 1, x: 0.1, y: 0.7, time: 1.6)
+        let hold = try #require(endedHold)
         #expect(tap.kind == .tap)
         #expect(tap.start == 1.02)
         #expect(tap.x == 0.9)
